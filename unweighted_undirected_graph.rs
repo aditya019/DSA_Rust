@@ -89,6 +89,45 @@ impl Graph {
         }
         println!();
     }
+    // using Bi-Directional BFS
+    fn shortest_distance(&self, s: i32, d: i32) -> i32 {
+        if !self.adjecency_list.contains_key(&s) || !self.adjecency_list.contains_key(&d) {
+            panic!("Node(s) not found");
+        }
+        if s == d {
+            return 0;
+        }
+        let mut q1 = VecDeque::new();
+        let mut q2 = VecDeque::new();
+        q1.push_back(s);
+        q2.push_back(d);
+        let mut v1 = HashSet::new();
+        let mut v2 = HashSet::new();
+        let mut distance = 0;
+        let mut found = false;
+        while !q1.is_empty() && !q2.is_empty() {
+            let n1 = q1.pop_front().unwrap();
+            let n2 = q2.pop_front().unwrap();
+            v1.insert(n1);
+            v2.insert(n2);
+            if v1.contains(&n2) && v2.contains(&n1) {
+                found = true;
+                break;
+            }
+            for i in self.adjecency_list.get(&n1).unwrap().borrow().iter() {
+                if !q1.contains(i) && !v1.contains(i) {
+                    q1.push_back(*i);
+                } 
+            }
+            for i in self.adjecency_list.get(&n2).unwrap().borrow().iter() {
+                if !q2.contains(i) && !v2.contains(i) {
+                    q2.push_back(*i);
+                } 
+            }
+            distance += 1;
+        }
+        if !found {i32::MAX} else {distance}
+    }
 }
 
 fn main() {
