@@ -1,6 +1,6 @@
 //This is a simple implementation of stack in rust
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 struct Node {
     val: i32,
     next: Option<Box<Node>>,
@@ -12,7 +12,7 @@ impl Node {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 struct List {
     head: Option<Box<Node>>,
 }
