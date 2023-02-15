@@ -42,6 +42,18 @@ impl List {
         self.head = temp;
         Some(top)
     }
+    fn len(&self) -> usize {
+        if self.head.is_none() {
+            return 0;
+        }
+        let mut res = 0;
+        let mut cnode = &self.head;
+        while cnode.is_some() {
+            cnode = &cnode.as_ref().unwrap().next;
+            res += 1;
+        }
+        res
+    }
     fn is_empty(&self) -> bool {
         self.head.is_none()
     }
